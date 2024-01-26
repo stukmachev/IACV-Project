@@ -1,13 +1,17 @@
-import argparse
-import time
 import cv2
-print("hiii")
+import numpy as np
 
-image = cv2.imread(r'dog.jpg') 
-cv2.imshow('image', image) 
-  
-# waits for user to press any key 
-cv2.waitKey(0) 
-  
-# closing all open windows 
-cv2.destroyAllWindows() 
+
+im = cv2.imread('dog.png')
+imgray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
+ret,thresh = cv2.threshold(imgray,127,255,0)
+contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+
+for i in range(len(contours)):
+    if cv2.contourArea(contours[i]) < 100:#remove small contour areas
+        continue
+    cv2.fillPoly(thresh, pts=[contours[i]], color=(255))
+
+cv2.drawContours(im, contours, -1, (0,255,0), 3)
+cv2.imshow("title", im)
+cv2.waitKey(0)
