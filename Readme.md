@@ -1,0 +1,1 @@
+Project for Image Analysis and Computer Vision subject
