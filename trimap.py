@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 # Загрузка изображения
-filename='kegs.png'
+filename='orange.png'
 image = cv2.imread(filename)
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 

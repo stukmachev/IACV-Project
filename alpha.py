@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 # Загрузите изображение
-image = cv2.imread('orange.png')
+image = cv2.imread('cube2.png')
 width, height=image.shape[:2]
 # Создайте начальную маску
 mask = np.zeros(image.shape[:2], np.uint8)
