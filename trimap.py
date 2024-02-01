@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 # Загрузка изображения
-filename='orange.png'
+filename='fan.png'
 image = cv2.imread(filename)
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 

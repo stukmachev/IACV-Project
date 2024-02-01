@@ -2,12 +2,10 @@ import cv2 as cv
 import numpy as np
 from matplotlib import pyplot as plt
 
-image = cv.imread('cube2.png')
+image = cv.imread('man_dark.png')
 
-# Преобработка изображения
 gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
 blurred = cv.GaussianBlur(gray, (5, 5), 0)
-
 
 # img = cv.medianBlur(img,5)
 th2 = cv.adaptiveThreshold(blurred,255,cv.ADAPTIVE_THRESH_MEAN_C,\
