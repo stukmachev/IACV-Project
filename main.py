@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-from pymatting import estimate_alpha_cf, load_image, save_image, estimate_foreground_ml
+from pymatting import estimate_alpha_cf, load_image, save_image, estimate_foreground_cf
 
 # Constants
 IMAGE_NAME = "pencilcase"
@@ -50,9 +50,9 @@ save_image(
 )  # cv2.imwrite doesn't work because it needs to be 0-255
 
 # Foreground and Background
-# foreground, background = estimate_foreground_ml(temp_img, alpha, return_background=True)
-# save_image(f"./{IMAGE_NAME}_foreground.png", foreground)
-# save_image(f"./{IMAGE_NAME}_background.png", background)
+foreground, background = estimate_foreground_cf(temp_img, alpha, return_background=True)
+save_image(f"./{IMAGE_NAME}_foreground.png", foreground)
+save_image(f"./{IMAGE_NAME}_background.png", background)
 
 # Adaptive Mean Thresholding
 adaptive_mean_threshold = cv2.adaptiveThreshold(
