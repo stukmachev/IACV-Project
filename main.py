@@ -8,7 +8,8 @@ from pymatting import estimate_alpha_cf, load_image, save_image, estimate_foregr
 IMAGE_NAME = "pencilcase"
 IMAGE_EXTENSION = "jpg"
 BLUR_KERNEL_SIZE = 5
-THRESH_VALUE = 200  # banana 50
+THRESH_VALUE_BROAD = 200
+THRESH_VALUE_STRICT = 50
 THRESH_MAX_VALUE = 255
 TRIMAP_KERNEL_SIZE = (9, 9)
 N_ITERATIONS = 6
@@ -22,28 +23,29 @@ assert img is not None, "file could not be read, check with os.path.exists()"
 # Perform and average to reduce noise
 img_cleaned = cv2.medianBlur(img, BLUR_KERNEL_SIZE)
 
-# Create mask
-_, mask = cv2.threshold(
-    img_cleaned, THRESH_VALUE, THRESH_MAX_VALUE, cv2.THRESH_BINARY_INV  # banana not inv
+# Create broad mask
+_, broad_mask = cv2.threshold(
+    img_cleaned, THRESH_VALUE_BROAD, THRESH_MAX_VALUE, cv2.THRESH_BINARY_INV
 )
+cv2.imwrite(f"./{IMAGE_NAME}_broad_mask.png", broad_mask)
 
-cv2.imwrite(f"./{IMAGE_NAME}_mask.png", mask)
+# Create strict mask
+_, strict_mask = cv2.threshold(
+    img_cleaned, THRESH_VALUE_STRICT, THRESH_MAX_VALUE, cv2.THRESH_BINARY_INV
+)
+cv2.imwrite(f"./{IMAGE_NAME}_strict_mask.png", strict_mask)
 
 # Generate Trimap
-kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, TRIMAP_KERNEL_SIZE)
-eroded = cv2.erode(mask, kernel, iterations=N_ITERATIONS)
-dilated = cv2.dilate(mask, kernel, iterations=N_ITERATIONS)
+trimap = broad_mask - strict_mask
+trimap[trimap == 255] = 153 # setting white pixels to gray
+trimap[strict_mask == 255] = 255 # overlapping the strict mask with the black pixels
 
-trimap = np.full(mask.shape, 128)
-trimap[eroded >= 254] = 255
-trimap[dilated <= 1] = 0
 cv2.imwrite(f"./{IMAGE_NAME}_trimap.png", trimap)
 
 # Alpha Matting
 scale = 1.0
 temp_img = load_image(f"./{IMAGE_NAME}.{IMAGE_EXTENSION}", "RGB", scale, "box")
-# temp_trimap = load_image(f"./{IMAGE_NAME}_trimap.png", "GRAY", scale, "nearest")
-temp_trimap = load_image(f"./{IMAGE_NAME}_trimap_manual.png", "GRAY", scale, "nearest") # loading the manual fixed trimap
+temp_trimap = load_image(f"./{IMAGE_NAME}_trimap.png", "GRAY", scale, "nearest")
 alpha = estimate_alpha_cf(temp_img, temp_trimap)
 save_image(
     f"./{IMAGE_NAME}_alpha.png", alpha
@@ -54,30 +56,18 @@ foreground, background = estimate_foreground_cf(temp_img, alpha, return_backgrou
 save_image(f"./{IMAGE_NAME}_foreground.png", foreground)
 save_image(f"./{IMAGE_NAME}_background.png", background)
 
-# Adaptive Mean Thresholding
-adaptive_mean_threshold = cv2.adaptiveThreshold(
-    img_cleaned,
-    THRESH_MAX_VALUE,
-    cv2.ADAPTIVE_THRESH_MEAN_C,
-    cv2.THRESH_BINARY,
-    THRESH_BLOCK_SIZE,
-    THRESH_C,
-)
-cv2.imwrite(f"./{IMAGE_NAME}_mean_adaptive.png", adaptive_mean_threshold)
-
 # PLOTS
 titles = [
     "Original Image",
-    f"Mask (threshold = {THRESH_VALUE})",
+    f"Mask broad (threshold = {THRESH_VALUE_BROAD})",
+    f"Mask strict (threshold = {THRESH_VALUE_STRICT})",
     "Trimap",
-    "Adaptive Mean Thresholding",
     "Alpha",
 ]
 images = [img_cleaned, 
-          mask, 
-        #   trimap, 
-          temp_trimap,
-          adaptive_mean_threshold, 
+          broad_mask, 
+          strict_mask,
+          trimap, 
           alpha]
 
 plt.figure(figsize=(30, 20))
