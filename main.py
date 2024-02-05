@@ -23,13 +23,13 @@ assert img is not None, "file could not be read, check with os.path.exists()"
 # Perform and average to reduce noise
 img_cleaned = cv2.medianBlur(img, BLUR_KERNEL_SIZE)
 
-# Create mask broad
+# Create broad mask
 _, broad_mask = cv2.threshold(
     img_cleaned, THRESH_VALUE_BROAD, THRESH_MAX_VALUE, cv2.THRESH_BINARY_INV
 )
 cv2.imwrite(f"./{IMAGE_NAME}_broad_mask.png", broad_mask)
 
-# Create mask strict
+# Create strict mask
 _, strict_mask = cv2.threshold(
     img_cleaned, THRESH_VALUE_STRICT, THRESH_MAX_VALUE, cv2.THRESH_BINARY_INV
 )
