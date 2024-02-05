@@ -31,11 +31,10 @@ inverted_edges = cv2.bitwise_not(gradient_magnitude)
 equalized = cv2.equalizeHist(inverted_edges)
 
 # Saving and output
-cv2.imwrite(f"./{IMAGE_NAME}_gradient.png", th3)
+cv2.imwrite(f"./{IMAGE_NAME}_gradient.png", equalized)
 
 plt.figure(figsize=(20, 5))
-plt.subplot(131), plt.imshow(gray, cmap='gray'), plt.title('Original Gray')
-plt.subplot(133), plt.imshow(inverted_edges, cmap='gray'), plt.title('Gradient Magnitude Inverted (Sobel)')
-plt.subplot(132), plt.imshow(equalized, cmap='gray'), plt.title('thresholding')
-plt.axis('off')  # Скрыть оси для лучшей визуализации
+plt.subplot(131), plt.imshow(gray, cmap='gray'), plt.title('Original Gray'), plt.axis('off')
+plt.subplot(133), plt.imshow(inverted_edges, cmap='gray'), plt.title('Gradient Magnitude Inverted'), plt.axis('off')
+plt.subplot(132), plt.imshow(equalized, cmap='gray'), plt.title('Equalized Gradient'), plt.axis('off')
 plt.show()
