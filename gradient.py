@@ -6,7 +6,7 @@ IMAGE_NAME = "basketball"
 IMAGE_EXTENSION = "png"
 
 # Image download
-image_path = 'basketball.png'
+image_path = f"{IMAGE_NAME}.{IMAGE_EXTENSION}"
 image = cv2.imread(image_path, cv2.IMREAD_COLOR)
 
 # Transition into shades of gray
