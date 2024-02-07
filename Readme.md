@@ -1,19 +1,29 @@
-Project for Image Analysis and Computer Vision subject
+# Object detection in motion-blurred images
+A project for Image Analysis and Computer Vision subject, the project delivery includes
 
-Have in mind:
-The project delivery for a Project must include the following items:
-(i) The developed code (e.g. Matlab) provided with the needed user instructions
-(ii) Experimental files: all what is needed to replicate experiments or to compare your approach with subsequent approaches in future projects, including:
- - input images or videos, 
- - possible text files with additional information about acquisition conditions (e.g. camera intrisic parameters), 
- - ground truth (e.g. true positions or identification or trajectory of observed objects), 
- - intermediate results of your processing algorithm, 
- - final results of your processing algorithm.
-(iii) A well-written self-sufficient pdf report including 
- - the problem formulation (with a short motivation of its relevance), 
- - a short outline of the state of the art, 
- - your solution approach, 
- - the description of your implementation, 
- - the experimental activity and the analysis of experimental results, 
- - final conclusions, also including some problems left open.
-(iv) Slides for an oral presentation: same structure as the report structure
+## The developed code in Python with user instructions below
+The alpha-matting algorithm can be found in the file `alpha.py`. In this file you can find a set of five constans defined in the first lines of the program. The following are the default values, however for each image these values can be modified to obtain better results.
+```
+# Constants
+IMAGE_NAME = "pencilcase"               # change for the name of your image
+IMAGE_EXTENSION = "jpg"                 # change for the extension of your image
+THRESH_BINARY = cv2.THRESH_BINARY_INV   # if the background of your image is light don't change it. the background is dark change it to cv2.THRESH_BINARY
+THRESH_VALUE_BROAD = 200                # Can be a number between 0-255, must be larger than THRESH_VALUE_STRICT
+THRESH_VALUE_STRICT = 50                # Can be a number between 0-255, must be lower than THRESH_VALUE_BROAD
+```
+## Experimental files:
+ - input images can be found in the folder called `source`
+ - intermediate results of your processing algorithm are generated when you run the files according to the name of your file named: image_name_result.png, for example "pencilcase_trimap.png"
+ - final results of your processing algorithm can be generated as well in a pdf at the end of file run.
+
+## A well-written self-sufficient pdf report:
+It can be found in the `docs` folder and it includes
+ - the problem formulation (with a short motivation of its relevance)
+ - a short outline of the state of the art
+ - the solution approach
+ - the description of your implementation
+ - the experimental activity and the analysis of experimental results
+ - final conclusions, also including some problems left open
+
+## Slides for an oral presentation: 
+The slides can be found in the `docs` folder and the have the same structure as the report structure
