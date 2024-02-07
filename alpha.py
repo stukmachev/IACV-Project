@@ -7,7 +7,7 @@ from pymatting import estimate_alpha_cf, load_image, save_image, estimate_foregr
 # Constants
 IMAGE_NAME = "pencilcase"
 IMAGE_EXTENSION = "jpg"
-THRESH_BINARY = cv2.THRESH_BINARY_INV
+THRESH_BINARY = cv2.THRESH_BINARY
 THRESH_VALUE_BROAD = 200
 THRESH_VALUE_STRICT = 50
 THRESH_MAX_VALUE = 255
@@ -21,7 +21,7 @@ img_cleaned = cv2.medianBlur(img, 5) # BLUR_KERNEL_SIZE = 5
 
 # Create broad mask
 _, broad_mask = cv2.threshold(
-    img_cleaned, THRESH_VALUE_BROAD, THRESH_MAX_VALUE, cv2.THRESH_BINARY
+    img_cleaned, THRESH_VALUE_BROAD, THRESH_MAX_VALUE, THRESH_BINARY
 )
 cv2.imwrite(f"./{IMAGE_NAME}_broad_mask.png", broad_mask)
 
