@@ -18,7 +18,8 @@ Those two last parameters must be changed checking that the broad_mask and stric
  - We enumerate some values for THRESH_BINARY, THRESH_VALUE_BROAD and THRESH_VALUE_STRICT for the images mostly used:
     - `banana.jpg` -> `THRESH_BINARY = cv2.THRESH_BINARY`, `THRESH_VALUE_BROAD=150` and `THRESH_VALUE_STRICT=50`
     - `pencilcase.jpg` -> `THRESH_BINARY = cv2.THRESH_BINARY_INV`, `THRESH_VALUE_BROAD=200` and `THRESH_VALUE_STRICT=50`
-    - `orange.png` -> `THRESH_BINARY = cv2.THRESH_BINARY_INV`, `THRESH_VALUE_BROAD=200` and `THRESH_VALUE_STRICT=50`
+    - `bb.png` -> `THRESH_BINARY = cv2.THRESH_BINARY`, `THRESH_VALUE_BROAD=80` and `THRESH_VALUE_STRICT=50`
+
  - intermediate results of your processing algorithm are generated when you run the files according to the name of your file named: image_name_result.png, for example "pencilcase_trimap.png"
  - final results of your processing algorithm can be generated as well in a pdf at the end of file run.
 
