@@ -11,8 +11,14 @@ THRESH_BINARY = cv2.THRESH_BINARY_INV   # if the background of your image is lig
 THRESH_VALUE_BROAD = 200                # Can be a number between 0-255, must be larger than THRESH_VALUE_STRICT
 THRESH_VALUE_STRICT = 50                # Can be a number between 0-255, must be lower than THRESH_VALUE_BROAD
 ```
+Those two last parameters must be changed checking that the broad_mask and strict_mask images result in something that it's not a plain white or plain black image, otherwise it won't work.
+
 ## Experimental files:
  - input images can be found in the folder called `source`
+ - We enumerate some values for THRESH_BINARY, THRESH_VALUE_BROAD and THRESH_VALUE_STRICT for the images mostly used:
+    - `banana.jpg` -> `THRESH_BINARY = cv2.THRESH_BINARY`, `THRESH_VALUE_BROAD=150` and `THRESH_VALUE_STRICT=50`
+    - `pencilcase.jpg` -> `THRESH_BINARY = cv2.THRESH_BINARY_INV`, `THRESH_VALUE_BROAD=200` and `THRESH_VALUE_STRICT=50`
+    - `orange.png` -> `THRESH_BINARY = cv2.THRESH_BINARY_INV`, `THRESH_VALUE_BROAD=200` and `THRESH_VALUE_STRICT=50`
  - intermediate results of your processing algorithm are generated when you run the files according to the name of your file named: image_name_result.png, for example "pencilcase_trimap.png"
  - final results of your processing algorithm can be generated as well in a pdf at the end of file run.
 

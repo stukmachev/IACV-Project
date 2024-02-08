@@ -27,14 +27,19 @@ cv2.imwrite(f"./{IMAGE_NAME}_broad_mask.png", broad_mask)
 
 # Create strict mask
 _, strict_mask = cv2.threshold(
-    img_cleaned, THRESH_VALUE_STRICT, THRESH_MAX_VALUE, cv2.THRESH_BINARY_INV
+    img_cleaned, THRESH_VALUE_STRICT, THRESH_MAX_VALUE, THRESH_BINARY
 )
 cv2.imwrite(f"./{IMAGE_NAME}_strict_mask.png", strict_mask)
 
 # Generate Trimap
-trimap = broad_mask - strict_mask
-trimap[trimap == 255] = 153 # setting white pixels to gray
-trimap[strict_mask == 255] = 255 # overlapping the strict mask with the black pixels
+if (THRESH_BINARY == cv2.THRESH_BINARY):
+    trimap = strict_mask - broad_mask
+    trimap[trimap == 255] = 153 # setting white pixels to gray
+    trimap[broad_mask == 255] = 255 # overlapping the strict mask with the black pixels
+else:
+    trimap = broad_mask - strict_mask
+    trimap[trimap == 255] = 153 # setting white pixels to gray
+    trimap[strict_mask == 255] = 255 # overlapping the strict mask with the black pixels
 
 cv2.imwrite(f"./{IMAGE_NAME}_trimap.png", trimap)
 
